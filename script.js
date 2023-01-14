@@ -1,11 +1,13 @@
-import { menuArray } from "/data.js"
-// console.log(menuArray)
+import { menuArray } from "./data.js"
 
 let orders= []
-
 document.addEventListener('click', function(e){
     if(e.target.dataset.add){
         addItems(e.target.dataset.add)
+     } else if(e.target.dataset.reduce){
+        reduceItems(e.target.dataset.reduce)
+     }  else if(e.target.dataset.remove){
+        removeItems(e.target.dataset.remove)
     }
 })
 
@@ -14,7 +16,7 @@ function addItems(itemId){
     const item = menuArray.filter(function(FoodItem){
         return FoodItem.id.toString() === itemId
     },)[0]
-       
+    
     let existingItem = orders.filter(function(order) {
         return order.name === item.name;
     });
@@ -25,20 +27,35 @@ function addItems(itemId){
         orders.push(item);
     }
     updateTotal()
+    render()
+
+}
+
+function reduceItems(itemId) {
+const existingItem = orders.filter(function(order) {
+        return order.id.toString() === itemId
+    });
+    if (existingItem.length > 0 && existingItem[0].quantity > 0) {
+        existingItem[0].quantity -= 1;
+        if (existingItem[0].quantity === 0) {
+            const index = orders.indexOf(existingItem[0]);
+            orders.splice(index, 1);
+        }
+    }
+    updateTotal()
+    render()
 }
 
 function removeItems(itemId) {
     const index = orders.findIndex(function(order) {
-        return order.id.toString() === itemId;
+        return order.id.toString() === itemId
+
     });
     if (index > -1) {
         orders.splice(index, 1);
     }
     updateTotal();
-}
-
-function updateTotal(){
-    document.getElementById('total').innerHTML = generateTotalHTML()
+    render()
 }
 
 function generateTotalHTML() {
@@ -48,8 +65,7 @@ function generateTotalHTML() {
         orders.forEach(function(item) {
             total += item.price * item.quantity
             html += `<div class="total-item">
-                        <p>${item.name} x ${item.quantity} <span class="remove" 
-                        data-less="${item.id}">(remove)</span></p>
+                        <p>${item.name} x ${item.quantity} <span class="remove" data-remove="${item.id}">(remove)</span></p>
                         <p>${item.price * item.quantity}</p>
                     </div>`
         })
@@ -65,29 +81,45 @@ function generateTotalHTML() {
     return html
 }
 
+function updateTotal(){
+    document.getElementById('total').innerHTML = generateTotalHTML()
+}
+
+
 function getFeed(){
-    
-    let feedHtml = ''
-    menuArray.forEach(function(items){
+        
+        let feedHtml = '';
+        menuArray.forEach(function(item){
+        let itemQuantity = 0;
+        const existingItem = orders.filter(function(order) {
+            return order.id.toString() === item.id.toString();
+        });
+        if (existingItem.length) {
+            itemQuantity = existingItem[0].quantity;
+        }
+            
         feedHtml += 
         `<div class="display">
             <div class="items">
-                <p class="emoji">${items.emoji}</p>
+                <p class="emoji">${item.emoji}</p>
                 <div class="item-inner">
                    <div>
-                        <p class="title">${items.name}</h4>
-                        <p class="ingredients">${items.ingredients}</p>
+                        <p class="title">${item.name}</h4>
+                        <p class="ingredients">${item.ingredients}</p>
                         <span class="price">
                             <i class="fa-regular fa-dollar-sign" 
-                            ></i> ${items.price}
+                            data-pricing="${item.id}"
+                            ></i> ${item.price}
                         </span>
                     </div>
                 </div>
                 <div class="add-btn">
-                    <span class="eclipse">
-                        <i class="fa-regular fa-plus" 
-                        data-add="${items.id}"
-                        ></i>
+                    <span class="eclipse minus">
+                        <i class="fa-solid fa-minus" data-reduce="${item.id}"></i>
+                    </span>
+                    <span class="eclipse quantity">${itemQuantity}</span>
+                    <span class="eclipse plus">
+                        <i class="fa-regular fa-plus" data-add="${item.id}"></i>
                     </span>
                 </div>
             </div>

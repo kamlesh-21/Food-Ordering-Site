@@ -57,13 +57,15 @@ h1{
 }
 
 .add-btn{
+    display: flex;
+    align-items: center;
     margin-left: auto;
     margin-right: 20px;
     font-size: larger;
     cursor: pointer;
 }
 
-.eclipse{
+/* .eclipse{
     display: inline-block;
     border: 1px solid gray;
     border-radius: 50%;
@@ -71,7 +73,7 @@ h1{
     padding: 15px;
     margin-right: auto;
  
-}
+} */
 .title{
     font-family: inherit;
     font-weight: 400;
@@ -143,4 +145,38 @@ h1{
     color: gray;
     font-style: italic;
     cursor: pointer;
+}
+
+/* add reduce buttoms */
+
+.quantity{
+    /* padding-left: 10px;
+    padding-right: 10px;
+    font-size: 20px;
+    font-style: bold;
+    color: #e17055; */
+    background: #CFD2CF;
+    padding: 10px;
+    margin: 8px;;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 800;
+    color: black;
+} 
+.eclipse{
+    width:1.75rem;
+    height:1.75rem;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1rem;
+    /* color:#fff; */
+}
+.plus{
+    background:#00b894;
+    color:#fff;
+}
+.minus{
+    background:#e17055;
+    color:#fff;
 }
