@@ -60,6 +60,7 @@ h1{
     margin-left: auto;
     margin-right: 20px;
     font-size: larger;
+    cursor: pointer;
 }
 
 .eclipse{
@@ -135,4 +136,11 @@ h1{
     background: green;
     color: white;
     padding: 10px 5px;
+}
+
+/* remove item */
+.remove{
+    color: gray;
+    font-style: italic;
+    cursor: pointer;
 }

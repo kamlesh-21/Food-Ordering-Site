@@ -2,6 +2,7 @@ import { menuArray } from "/data.js"
 // console.log(menuArray)
 
 let orders= []
+
 document.addEventListener('click', function(e){
     if(e.target.dataset.add){
         addItems(e.target.dataset.add)
@@ -13,9 +14,7 @@ function addItems(itemId){
     const item = menuArray.filter(function(FoodItem){
         return FoodItem.id.toString() === itemId
     },)[0]
-    // orders.push(item)
-    // console.log(item)
-    
+       
     let existingItem = orders.filter(function(order) {
         return order.name === item.name;
     });
@@ -26,7 +25,20 @@ function addItems(itemId){
         orders.push(item);
     }
     updateTotal()
+}
 
+function removeItems(itemId) {
+    const index = orders.findIndex(function(order) {
+        return order.id.toString() === itemId;
+    });
+    if (index > -1) {
+        orders.splice(index, 1);
+    }
+    updateTotal();
+}
+
+function updateTotal(){
+    document.getElementById('total').innerHTML = generateTotalHTML()
 }
 
 function generateTotalHTML() {
@@ -36,7 +48,8 @@ function generateTotalHTML() {
         orders.forEach(function(item) {
             total += item.price * item.quantity
             html += `<div class="total-item">
-                        <p>${item.name} x ${item.quantity}</p>
+                        <p>${item.name} x ${item.quantity} <span class="remove" 
+                        data-less="${item.id}">(remove)</span></p>
                         <p>${item.price * item.quantity}</p>
                     </div>`
         })
@@ -52,11 +65,6 @@ function generateTotalHTML() {
     return html
 }
 
-function updateTotal(){
-    document.getElementById('total').innerHTML = generateTotalHTML()
-}
-
-
 function getFeed(){
     
     let feedHtml = ''
@@ -71,7 +79,6 @@ function getFeed(){
                         <p class="ingredients">${items.ingredients}</p>
                         <span class="price">
                             <i class="fa-regular fa-dollar-sign" 
-                            data-pricing="${items.id}"
                             ></i> ${items.price}
                         </span>
                     </div>
