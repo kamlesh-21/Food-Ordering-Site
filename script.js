@@ -1,4 +1,25 @@
 import { menuArray } from "./data.js"
+const loginForm = document.getElementById("login-form")
+const total = document.querySelector("#total");
+const modal = document.querySelector("#modal");
+
+total.addEventListener("click", (e) => {
+  if (e.target.classList.contains("gotopayment")) {
+    modal.style.display = "block";
+  }
+});
+
+loginForm.addEventListener("submit", function(e) {
+  e.preventDefault();
+  const form = new FormData(loginForm)
+  const fullName = form.get('fullName')
+  modal.style.display = "none";
+  total.innerHTML = 
+    `
+    <h2>Thanks you ${fullName}!Your order is on the way!</h2>
+    ` 
+
+});
 
 let orders= []
 document.addEventListener('click', function(e){
@@ -75,7 +96,7 @@ function generateTotalHTML() {
                     <p>${total}</p>
                 </div>`
         html += `<div class="continue">
-                    <button class=gotopayment>Complete Order</button>
+                    <button class="gotopayment">Complete Order</button>
                 </div>
                 `
     return html
@@ -84,7 +105,6 @@ function generateTotalHTML() {
 function updateTotal(){
     document.getElementById('total').innerHTML = generateTotalHTML()
 }
-
 
 function getFeed(){
         
