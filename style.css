@@ -65,15 +65,6 @@ h1{
     cursor: pointer;
 }
 
-/* .eclipse{
-    display: inline-block;
-    border: 1px solid gray;
-    border-radius: 50%;
-    text-align: center;
-    padding: 15px;
-    margin-right: auto;
- 
-} */
 .title{
     font-family: inherit;
     font-weight: 400;

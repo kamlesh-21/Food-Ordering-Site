@@ -16,7 +16,7 @@ loginForm.addEventListener("submit", function(e) {
   modal.style.display = "none";
   total.innerHTML = 
     `
-    <h2>Thanks you ${fullName}!Your order is on the way!</h2>
+    <h2>Thanks you ${fullName}! Your order is on the way!</h2>
     ` 
 
 });
